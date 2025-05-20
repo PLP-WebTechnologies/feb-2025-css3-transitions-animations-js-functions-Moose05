@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Animated Webpage</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      transition: background-color 0.5s, color 0.5s;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .dark-mode {
+      background-color: #222;
+      color: #fff;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 10px;
+      transition: background-color 0.3s ease;
+      animation: pulse 2s infinite;
+    }
+
+    button:hover {
+      background-color: #ddd;
+    }
+
+    img {
+      width: 200px;
+      border-radius: 10px;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .shake {
+      animation: shake 0.5s;
+    }
+
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>My Animated Page</h1>
+
+  <button id="themeToggle">Toggle Dark/Light Mode</button>
+  <button id="animateBtn">Trigger Animation</button>
+
+  <br /><br />
+  <img id="image" src="https://via.placeholder.com/200" alt="Placeholder Image"/>
+
+  <script>
+    // Load stored theme preference
+    const body = document.body;
+    const storedTheme = localStorage.getItem('theme');
+    if (storedTheme === 'dark') {
+      body.classList.add('dark-mode');
+    }
+
+    // Toggle theme and store preference
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      const currentTheme = body.classList.contains('dark-mode') ? 'dark' : 'light';
+      localStorage.setItem('theme', currentTheme);
+    });
+
+    // Trigger shake animation
+    document.getElementById('animateBtn').addEventListener('click', () => {
+      const image = document.getElementById('image');
+      image.classList.add('shake');
+
+      // Remove class after animation ends to allow re-triggering
+      image.addEventListener('animationend', () => {
+        image.classList.remove('shake');
+      }, { once: true });
+    });
+  </script>
+</body>
+</html>
